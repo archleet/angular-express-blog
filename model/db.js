@@ -4,6 +4,7 @@ var Schema = mongoose.Schema,
 	ObjectId = Schema.ObjectId;
 
 var postSchema = new mongoose.Schema({
+	_id: ObjectId,
 	title: String,
 	text: String
 });

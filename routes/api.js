@@ -24,41 +24,22 @@ var postdata = require('../model/posts');
 exports.posts = function (req, res) {
 
   postdata.allposts(function(err, dbposts){
-/*    res.render('users', { 
-      title: 'List of registered users',
-      pagetitle: 'Hello Express',
-      users: userlist
-    });
-  });*/
-
-  //console.log(dbposts);
-
-  /*var posts = [];
-    dbposts.forEach(function (post, i) {
-      posts.push({
-        id: i,
-        title: post.title,
-        text: post.text.substr(0, 50) + '...'
-      });
-    });*/
-
-  data = dbposts;
-  
-    res.json({
-      posts: dbposts
-    });
+    res.json({ posts: dbposts });
   });
+
 };
 
 exports.post = function (req, res) {
   var id = req.params.id;
-  if (id >= 0 && id < data.posts.length) {
-    res.json({
-      post: data.posts[id]
-    });
-  } else {
-    res.json(false);
-  }
+
+  //console.log('route/api/post/id: ' + id);
+
+  postdata.findbyid(id, function(err, dbpost){
+    console.log('route/api/post/dbpost: ' + dbpost);
+
+      res.json({ post: dbpost });
+  });
+
 };
 
 // POST
@@ -73,12 +54,13 @@ exports.addPost = function (req, res) {
 exports.editPost = function (req, res) {
   var id = req.params.id;
 
-  if (id >= 0 && id < data.posts.length) {
-    data.posts[id] = req.body;
+  console.log('route/api/editPost/id: ' + id);
+
+  postdata.findbyid(id, function(err, dbpost){
+    dbpost = req.body;
     res.json(true);
-  } else {
-    res.json(false);
-  }
+  });
+  
 };
 
 // DELETE

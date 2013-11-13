@@ -28,6 +28,7 @@ function ReadPostCtrl($scope, $http, $routeParams) {
 
 function EditPostCtrl($scope, $http, $location, $routeParams) {
   $scope.form = {};
+
   $http.get('/api/post/' + $routeParams.id).
     success(function(data) {
       $scope.form = data.post;
@@ -47,7 +48,7 @@ function DeletePostCtrl($scope, $http, $location, $routeParams) {
       $scope.post = data.post;
     });
 
-  $scope.deletePost = function () {
+  $scope.deletePost = function () { 
     $http.delete('/api/post/' + $routeParams.id).
       success(function(data) {
         $location.url('/');
