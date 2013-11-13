@@ -5,3 +5,5 @@ Based on the [Angular Express Seed](https://github.com/btford/angular-express-se
 Also, to complete both ends of the stack, added mongo db/mongoose as the back end and bootstrap to make all pretty. Very basic right now but will be expanding this later on.
 
 The script 'posts-create.js' in the db-scripts folder adds a few documents to a posts collection in the 'blogdb' database.
+
+Test.
