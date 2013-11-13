@@ -3,9 +3,10 @@
  * Module dependencies.
  */
 
-var express = require('express'),
-  routes = require('./routes'),
-  api = require('./routes/api');
+var express = require('express');
+var db = require('./model/db');
+var routes = require('./routes');
+var api = require('./routes/api');
 
 var app = module.exports = express.createServer();
 
