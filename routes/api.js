@@ -17,19 +17,36 @@ var data = {
   ]
 };
 
+var mongoose = require('mongoose');
+var postdata = require('../model/posts');
 // GET
 
 exports.posts = function (req, res) {
-  var posts = [];
-  data.posts.forEach(function (post, i) {
-    posts.push({
-      id: i,
-      title: post.title,
-      text: post.text.substr(0, 50) + '...'
+
+  postdata.allposts(function(err, dbposts){
+/*    res.render('users', { 
+      title: 'List of registered users',
+      pagetitle: 'Hello Express',
+      users: userlist
     });
-  });
-  res.json({
-    posts: posts
+  });*/
+
+  //console.log(dbposts);
+
+  /*var posts = [];
+    dbposts.forEach(function (post, i) {
+      posts.push({
+        id: i,
+        title: post.title,
+        text: post.text.substr(0, 50) + '...'
+      });
+    });*/
+
+  data = dbposts;
+  
+    res.json({
+      posts: dbposts
+    });
   });
 };
 
