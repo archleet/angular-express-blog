@@ -6,4 +6,4 @@ Also, to complete both ends of the stack, added mongo db/mongoose as the back en
 
 The script 'posts-create.js' in the db-scripts folder adds a few documents to a posts collection in the 'blogdb' database.
 
-Test.
+The code now includes all CRUD operations for the posts collection.
