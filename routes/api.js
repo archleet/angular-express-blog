@@ -35,7 +35,7 @@ exports.post = function (req, res) {
   //console.log('route/api/post/id: ' + id);
 
   postdata.findbyid(id, function(err, dbpost){
-    console.log('route/api/post/dbpost: ' + dbpost);
+    //console.log('route/api/post/dbpost: ' + dbpost);
 
       res.json({ post: dbpost });
   });
@@ -45,8 +45,28 @@ exports.post = function (req, res) {
 // POST
 
 exports.addPost = function (req, res) {
-  data.posts.push(req.body);
-  res.json(req.body);
+
+  // Use the Post2 schema to add new record. This lets the database create the _id.
+  // If you use the other schema (Post) you are required to create the _id before
+  // the save.
+  var Post = mongoose.model('Post2');
+  var newPost = new Post();
+  newPost.title = req.body.title;
+  newPost.text = req.body.text;
+
+  //console.log('New Post Data: ' + newPost);
+
+  postdata.addPost(newPost, function(err, dbpost){
+      if (err)
+        res.json(false);
+      else {
+        //res.json(true);
+        res.json(req.body);
+      }
+    });
+
+  //data.posts.push(req.body);
+  //res.json(req.body);
 };
 
 // PUT
@@ -54,11 +74,23 @@ exports.addPost = function (req, res) {
 exports.editPost = function (req, res) {
   var id = req.params.id;
 
-  console.log('route/api/editPost/id: ' + id);
+  //console.log('route/api/editPost/id: ' + id);
+  //console.log('route/api/editPost/post: ' + req.body.text);
 
-  postdata.findbyid(id, function(err, dbpost){
-    dbpost = req.body;
-    res.json(true);
+ var editedPost = mongoose.model('Post');
+ editedPost._id = id;
+ editedPost.title = req.body.title;
+ editedPost.text = req.body.text;
+
+ //console.log('route/api/editPost/id: ' + editedPost._id);
+ //console.log('route/api/editPost/title: ' + editedPost.title);
+ //console.log('route/api/editPost/text: ' + editedPost.text);
+
+  postdata.savePostById(editedPost, function(err, dbpost){
+    if (err)
+      res.json(false);
+    else
+      res.json(true);
   });
   
 };
@@ -68,10 +100,10 @@ exports.editPost = function (req, res) {
 exports.deletePost = function (req, res) {
   var id = req.params.id;
 
-  if (id >= 0 && id < data.posts.length) {
-    data.posts.splice(id, 1);
-    res.json(true);
-  } else {
-    res.json(false);
-  }
+  postdata.deletePost(id, function(err, retId){
+      if (err)
+        res.json(false);
+      else
+        res.json(true);
+    });
 };

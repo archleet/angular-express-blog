@@ -22,6 +22,7 @@ function AddPostCtrl($scope, $http, $location) {
 function ReadPostCtrl($scope, $http, $routeParams) {
   $http.get('/api/post/' + $routeParams.id).
     success(function(data) {
+      // Add returned post object to scope - will be used by the view.
       $scope.post = data.post;
     });
 }
@@ -31,6 +32,7 @@ function EditPostCtrl($scope, $http, $location, $routeParams) {
 
   $http.get('/api/post/' + $routeParams.id).
     success(function(data) {
+      // Add returned post object to the scope.
       $scope.form = data.post;
     });
 
